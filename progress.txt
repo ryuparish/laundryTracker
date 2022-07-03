@@ -1,0 +1,7 @@
+Current Objective:
+  * Create a menu/dashboard to input, output, and find clothes if they exist in the table (maybe show their picture too).
+    X Manual Input of items with no picture
+    - Make sure that for new data, a picture is provided.
+
+Next Objective:
+  * Evaluate the performance on my iphone pictures. (Next Next: Figure our siamese network identification for specific clothes).

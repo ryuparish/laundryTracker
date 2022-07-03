@@ -1,0 +1,20 @@
+ Sweater
+ Hoodie
+ T-Shirt
+ Flip-flops
+ Shorts
+ Pants (like suit pants)
+ Jeans
+ Sneakers
+ Shoes (like suit shoes)
+ Coat
+ Blazer
+ Cap
+ Beanie
+ Socks
+ Shirt (like a suit shirt)
+ Scarf
+ Swimsuit
+ Jacket
+ Boots
+ Polo

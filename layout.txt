@@ -1,0 +1,19 @@
+Our Tentative Layout for this project:
+  * Database Interactions
+    - API/module for the dashboard, menu insertions, and menu deletions
+  * Dashboard of the database's contents to show color percentages
+  * Inventory Modifications with menu/gui
+  * Taking photos with mac camera
+  * Changing clothes pretty menu and quick picture-to-cloth matching for marking dirty or clean
+    - Screen/Seamless for marking dirty or clean.
+
+
+
+
+
+
+
+
+
+Next stages:
+  * Adding support for mobile.

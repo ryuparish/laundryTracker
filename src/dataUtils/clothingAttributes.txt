@@ -1,0 +1,70 @@
+For each cloth in clothes.db...
+
+  1. cloth_name - String
+    - The name of the clothing, e.g. Grey Adidas T-Shirt
+
+  2. article - String
+    - The article of clothing that the clothing is, 
+    such as a T-Shirt, Hoodie, Bucket Hat, etc.
+
+  3. outerwear - Boolean
+    - Is this piece of clothing something that goes on the outside?
+    As in, would you wear on the outside of a T-Shirt or Longsleeve?
+
+  4. tempurature - Integer
+    - On a scale of 1 - 5, where 5 is going to provide the most heat to your body (
+    big jacket, heavy coats) and 1 will give you almost no heat (undershirts, underwear, certain hats).
+
+  5. formality - Integer
+    - On a scale of 1 - 3, where the scale represents formal, semi-formal, and informal wear from 1 - 3
+    respectively.
+
+  6. Dirty - Boolean
+    - Dirty if true, false if clean.
+
+All types for each article...
+  
+  1. cloth_name
+    * Can be whatever the user wants the name to be, but should follow the convention
+    [color, brand/detail, article]
+
+  2. article [Capital Letter start and lowercase afterward]
+    * Sweater
+    * Hoodie
+    * T-Shirt
+    * Flip-flops
+    * Shorts
+    * Jeans
+    * Sneakers
+    * Shoes (like suit shoes)
+    * Coat
+    * Blazer
+    * Cap
+    * Beanie
+    * Socks
+    * Shirt (like a suit shirt)
+    * Scarf
+    * Swimsuit
+    * Jacket
+    * Boots
+    * Polo
+
+  3. outerwear [Boolean]
+    * 0 -> false
+    * 1 -> true
+
+  4. tempurature [Integer]
+    * 1 -> Shows skin, keeps cool
+    * 2 -> Covers you
+    * 3 -> Enough to wear alone and keep warm
+    * 4 -> Almost winter clothes
+    * 5 -> Winter clothes / Special Gear
+ 
+  5. formality [Integer]
+    * 1 -> Informal (flip flops and t-shirts)
+    * 2 -> Semi-formal (Office shirt)
+    * 3 -> Formal (Suit and tie)
+  
+  6. dirty [Boolean]
+    * 0 -> Clean, not dirty
+    * 1 -> Dirty
