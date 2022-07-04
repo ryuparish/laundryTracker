@@ -1,8 +1,17 @@
-(Jul 3, 2022 - present) Current Objective:
+(Jul 4, 2022 - Present) Current Objective:
+  * Create current clothing wardrobe dataset for our own data.
+  * Evaluate the performance on my iphone pictures.
+
+Next Objective:
+  * Figure our siamese network identification for specific clothes.
+
+
+
+(Jul 3, 2022 - Jul 4, 2022) Current Objective:
   * Make sure that the other features of the API work such as
-    - Removing items
-    - Editing items
-    - Generating outfits
+    X Removing items
+    X Editing items
+    - Generating outfits [SKIPPED]
 
 Next Objective:
   * Evaluate the performance on my iphone pictures. (Next Next: Figure our siamese network identification for specific clothes)

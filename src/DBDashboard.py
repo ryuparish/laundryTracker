@@ -64,7 +64,7 @@ class DBAPI():
         ## Comment ##
         # R: Configuring the main screen dimensions and location
         width = int(full_width / 3) # 1/3 width
-        height = int(2 * (full_height / 3)) # 2/3 height
+        height = int(full_height / 3) # 1/3 height
         xaxis = int((full_width/2) - (width/2)) # full - half screen - half width of widget
         yaxis = int((full_height/2) - (height/2)) # full - half screen - half height of widget
         root.geometry(f"{width}x{height}+{xaxis}+{yaxis}")
@@ -230,7 +230,7 @@ class DBAPI():
     
         # R: Create A Delete Button
         delete_btn = Button(root, text="Remove Clothing from Database", command=lambda : self.delete(self.delete_box))
-        delete_btn.grid(row=10, column=0, columnspan=2, pady=10, padx=10, ipadx=75)
+        delete_btn.grid(row=10, column=0, columnspan=2, pady=10, padx=80, ipadx=80)
     
         # R: Create an Edit Button
         edit_btn = Button(root, text="Edit Clothing", command=lambda : self.edit())
@@ -396,9 +396,7 @@ class DBAPI():
         formality_editor.insert(0, cloth[4])
         dirty_editor.insert(0, cloth[5])
         
-        # R: STYLE BUG
-        # R: Does nothing currently with the settings above 
-        # R: Create a Save Button To Save edited record
+        # R: Update clothing button to update the clothing item
         edit_btn = Button(editor, text="Update Cloth", command=lambda : self.update(LaundryItem(cloth_name_editor.get(),
                                                                                   self.article_editor.get(),
                                                                                   self.outerwear_editor.get(),
@@ -445,8 +443,6 @@ class DBAPI():
         # R: tempurature cloth[3]
         # R: formality cloth[4]
         # R: dirty cloth[5]
-    
-    
     
         # R: Randomly selecting outerwear that is a [Jacket, Hoodie, Coat, etc.]
         if(outerwear_choice != "None"):
@@ -685,40 +681,7 @@ class DBAPI():
         photo_path.set(local_location)
         file_explorer_label.config(text=filename)
         
-        
     
-    # R: Not very useful right now
-    # R: Create Query Function
-    #def query():
-    #
-    #	# R: Create a database or connect to one
-    #	conn = sqlite3.connect('clothes.db')
-    #
-    #	# R: Create cursor
-    #	c = conn.cursor()
-    #
-    #	# R: Query the database
-    #	c.execute("SELECT * FROM clothes")
-    #	records = c.fetchall()
-    #	print(records)
-    #
-    # R:        ### R: TODO ###
-    # R:        # R: Temporarily commenting this out so I can see which indexes I should access before I display them
-    #	# R: Loop Thru Results
-    #	#print_records = ''
-    #	#for record in records:
-    #	#	print_records += str(record[0]) + " " + str(record[1]) + " " + "\t" +str(record[6]) + "\n"
-    #
-    #	#query_label = Label(root, text=print_records)
-    #	#query_label.grid(row=12, column=0, columnspan=2)
-    #
-    #	#Commit Changes
-    #	conn.commit()
-    #
-    #	# R: Close Connection 
-    #	conn.close()
-
-# R: Main driver
 def main():
     my_dbapi = DBAPI()
 
