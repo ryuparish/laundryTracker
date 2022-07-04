@@ -1,0 +1,1 @@
+Can we display a list of items and then be able to click them for Edit or Remove?

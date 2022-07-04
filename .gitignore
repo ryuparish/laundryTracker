@@ -1,2 +1,5 @@
 # Ignore this for large file error avoidance
 models
+*.swo
+*.swp
+*.DS_Store
