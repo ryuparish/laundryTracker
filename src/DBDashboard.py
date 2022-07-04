@@ -21,16 +21,16 @@ class LaundryItem():
     def __init__(self,
                  cloth_name,
                  article,
-                 outerwear,
-                 tempurature,
-                 formality,
-                 dirty,
-                 photo_path):
+                 outerwear=False,
+                 tempurature=1,
+                 formality=1,
+                 dirty=False,
+                 photo_path=None):
         self.cloth_name = cloth_name
         self.article = article
         self.outerwear = outerwear
-        self.tempurature = int(tempurature)
-        self.formality = int(formality)
+        self.tempurature = int(tempurature) if tempurature else 1
+        self.formality = int(formality) if formality else 1
         self.dirty = dirty
         self.photo_path = photo_path
         
@@ -229,11 +229,11 @@ class DBAPI():
         submit_btn.grid(row=9, column=0, columnspan=2, pady=10, padx=80, ipadx=100)
     
         # R: Create A Delete Button
-        delete_btn = Button(root, text="Remove Clothing from Database", command=lambda : delete(delete_box))
+        delete_btn = Button(root, text="Remove Clothing from Database", command=lambda : self.delete(self.delete_box))
         delete_btn.grid(row=10, column=0, columnspan=2, pady=10, padx=10, ipadx=75)
     
         # R: Create an Edit Button
-        edit_btn = Button(root, text="Edit Clothing", command=lambda : edit())
+        edit_btn = Button(root, text="Edit Clothing", command=lambda : self.edit())
         edit_btn.grid(row=12, column=0, columnspan=2, pady=10, padx=10, ipadx=140)
     
         # R: Create a Generate Button
@@ -249,7 +249,7 @@ class DBAPI():
     
     # R: Create Update function to update a record
     # R: Auxillary function that does not show a window, only updates the sql database
-    def update(laundry_item):
+    def update(self, laundry_item):
     
     	# R: Create a database or connect to one
     	conn = sqlite3.connect('clothes.db')
@@ -257,7 +257,7 @@ class DBAPI():
     	# R: Create cursor
     	c = conn.cursor()
     
-    	record_id = edit_box.get()
+    	target_cloth = self.edit_box.get()
     
     	c.execute("""UPDATE clothes SET
     		cloth_name = :cloth_name,
@@ -324,30 +324,32 @@ class DBAPI():
     
     
     # R: Create Edit function to update a record (this creates a second window)
-    def edit():
-        global editor
+    def edit(self):
+        cloth = self.queryClothes()    
+
+        # R: Making sure there is one clothing with a matching name
+        if cloth == None:
+            print("Clothing item in the edit clothing field could not be found")
+            return
+
+        # R: Begin Tkinter build for the edit widget
         editor = Tk()
         editor.title('Update Clothing')
-        editor.geometry("400x300")
-        # R: Create a database or connect to one
-        conn = sqlite3.connect('clothes.db')
-        # R: Create cursor
-        c = conn.cursor()
-        
-        global target_cloth
-        target_cloth = edit_box.get()
-        # R: Query the database
-        c.execute("SELECT * FROM clothes WHERE cloth_name = :target_cloth", {"target_cloth": target_cloth})
-        clothing = c.fetchall()
-        
-        #Create Global Variables for text box names
-        global cloth_name_editor
-        global article_editor
-        global outerwear_editor
-        global tempurature_editor
-        global formality_editor
-        global dirty_editor
+
+        ## Note ##
+        # R: root.winfo_screenwidth() or root.winfo_screenheight() gets full width/height.
+        # R: X-axis starts from the very left and goes to the very right (root.winfo_screenwidth)
+        full_width = editor.winfo_screenwidth()
+        full_height = editor.winfo_screenheight()
     
+        ## Comment ##
+        # R: Configuring the main screen dimensions and location
+        width = 500
+        height = 300
+        xaxis = int((full_width/2) - (width/2)) # full - half screen - half width of widget
+        yaxis = int((full_height/2) - (height/2)) # full - half screen - half height of widget
+        editor.geometry(f"{width}x{height}+{xaxis}+{yaxis}")
+
         ######### R: Labels and Entries (Edit clothes Config) #########
     
         # R: cloth_name section
@@ -386,24 +388,24 @@ class DBAPI():
         dirty_label = Label(editor, text="Dirty?")
         dirty_label.grid(row=5, column=0)
         
-        # R: Display the cloth to be edited (BUG)
-        for cloth in clothing:
-         cloth_name_editor.insert(0, cloth[0])
-         article_editor.insert(0, cloth[1])
-         outerwear_editor.insert(0, cloth[2])
-         tempurature_editor.insert(0, cloth[3])
-         formality_editor.insert(0, cloth[4])
-         dirty_editor.insert(0, cloth[5])
+        # R: Inserting the retrieved 
+        cloth_name_editor.insert(0, cloth[0])
+        article_editor.insert(0, cloth[1])
+        outerwear_editor.insert(0, cloth[2])
+        tempurature_editor.insert(0, cloth[3])
+        formality_editor.insert(0, cloth[4])
+        dirty_editor.insert(0, cloth[5])
         
         # R: STYLE BUG
         # R: Does nothing currently with the settings above 
         # R: Create a Save Button To Save edited record
-        edit_btn = Button(editor, text="Update Cloth", command=update(LaundryItem(self.cloth_name.get(),
-                                                                                  self.article.get(),
-                                                                                  self.outerwear_choice.get(),
-                                                                                  self.tempurature.get(),
-                                                                                  self.formality.get(),
-                                                                                  self.dirty_choice.get())))
+        edit_btn = Button(editor, text="Update Cloth", command=lambda : self.update(LaundryItem(cloth_name_editor.get(),
+                                                                                  self.article_editor.get(),
+                                                                                  self.outerwear_editor.get(),
+                                                                                  self.tempurature_editor.get(),
+                                                                                  self.formality_editor.get(),
+                                                                                  self.dirty_editor.get(),
+                                                                                  self.photo_path.get())))
         edit_btn.grid(row=9, column=0, columnspan=2, pady=10, padx=10, ipadx=145)
     
     # R: Generate the clothing and ask again if disapproved. If approved mark dirty.
@@ -415,8 +417,7 @@ class DBAPI():
         #generator.geometry(f"{width}x{height}+0+0")
         generator.geometry("400x300")
         # R: Create a database or connect to one
-        conn = sqlite3.connect('clothes.db')
-        # R: Create cursor
+        conn = sqlite3.connect('clothes.db') # R: Create cursor
         c = conn.cursor()
         
         # R: Query the database for clean clothes 
@@ -486,7 +487,7 @@ class DBAPI():
         disapprove_btn.grid(row=7, column=0, columnspan=2, pady=10, padx=10, ipadx=115)
     
     # R: Function to delete the given item with the item's name
-    def delete(delete_box):
+    def delete(self, delete_box):
         # R: Get cursor
         conn = sqlite3.connect('clothes.db')
         c = conn.cursor()
@@ -541,12 +542,30 @@ class DBAPI():
     ### Helper Functions for operations and misc stuff ###
     ######################################################
 
-    # R: Flips the given radio button to None or 1
-    def flip(self, radiobutton):
-        if not radiobutton.get():
-            radiobutton.set(True)
-        else:
-            radiobutton.set(False)
+
+
+    # R: Retrieves the laundry item and returns the LaundryItem object
+    def queryClothes(self):
+        # R: Create a database or connect to one
+        conn = sqlite3.connect('clothes.db')
+        # R: Create cursor
+        c = conn.cursor()
+        
+        # R: Query the database with the edit name
+        target_cloth = self.edit_box.get()
+
+        # R: Return a tuple representation of the LaundryItem
+        c.execute("SELECT * FROM clothes WHERE cloth_name = :target_cloth", {"target_cloth": target_cloth})
+        matched_clothing = c.fetchall()
+        print(f"db contained the following clothing named {target_cloth}: {matched_clothing}")
+
+        # R: One and only one row since names are unique
+        if len(matched_clothing) != 1:
+            print(f"Invalid edit_box value, rowcount from db is {len(matched_clothing)}")
+            return None
+
+        return matched_clothing[0]
+    
 
     # R: Clears all the input from the user to indicate a success or a submission
     def clearBoxes(self):
